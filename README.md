@@ -1,4 +1,15 @@
-
+## Table of content
+- [Query Routing](#query-routing)
+  - [Simple Query Routing Example](#simple-query-routing-example)
+- [Query Rewrite](#query-rewrite)
+  - [Simple Query Rewrite Example](#simple-query-rewrite-example)
+- [Fast Switchovers](#fast-switchovers)
+- [Getting Started](#getting-started)
+- [Run a Local Container](#run-a-local-container)
+- [Directions for RDS Postgres Multi-AZ with two readable standbys on EC2](#Directions-for-RDS-Postgres-Multi-AZ-with-two-readable-standbys-on-EC2)
+- [Environment variables](#Environment-variables)
+- [Other uses for pgbouncer-fast-switchover](#Other-uses-for-pgbouncer-fast-switchover)
+- [Legal Notice](#legal-notice)
 
 Have you ever wanted to split your database load across multiple servers or clusters without impacting the configuration or code of your client applications? Or perhaps you have wished for a way to intercept and modify application queries, so that you can make them use optimized tables (sorted, pre-joined, pre-aggregated, etc.), add security filters, or hide changes you have made in the schema?  
 
@@ -409,6 +420,28 @@ Type "help" for help.
 
 postgres=>
 ```
+
+## Environment variables
+|ENV VAR| DEFAULT VALUE|
+|-------|--------------|
+|PGB_DIR|/home/pgbouncer|
+|INI|${PGB_DIR}/pgbouncer.ini|
+|USERLIST|${PGB_DIR}/userlist.txt|
+|ROUTING_RULES_FILE|${PGB_DIR}/routing_rules.py|
+|REWRITE_QUERY_FILE|${PGB_DIR}/rewrite_query.py.py|
+|LOG_FILE|${PGB_DIR}/pgbouncer.log|
+|PGB_ADMIN_USERS|admin|
+|PGB_ADMIN_PASSWORDS|pw|
+|PGB_DATABASES|null|
+|PGB_LISTEN_PORT|5432|
+|PGB_LISTEN_ADDR|0.0.0.0|
+|AUTH_TYPE|md5|
+|DEFAULT_POOL_SIZE|20|
+|LOG_CONNECTIONS|1|
+|LOG_DISCONNECTIONS|1|
+|LOG_POOLER_ERRORS|1|
+|LOG_STATS|1|
+
 
 ## Deploy pgbouncer in Elastic Kubernetes Service (EKS)  
 

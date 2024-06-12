@@ -5,6 +5,11 @@ PGB_DIR="/home/pgbouncer"
 INI="${PGB_DIR}/pgbouncer.ini"
 USERLIST="${PGB_DIR}/userlist.txt"
 
+ROUTING_RULES_FILE="${PGB_DIR}/routing_rules.py"
+REWRITE_QUERY_FILE="${PGB_DIR}/rewrite_query.py.py"
+LOG_FILE="${PGB_DIR}/pgbouncer.log"
+
+
 if [ -z ${PGB_ADMIN_USERS+x} ]; then
   PGB_ADMIN_USERS="admin"
   PGB_ADMIN_PASSWORDS="pw"
@@ -17,21 +22,26 @@ if [ ! -f ${INI} ]; then
     exit 1
   fi
 
+if [ ! -f ${LOG_FILE} ]; then
+    touch ${LOG_FILE}
+fi
+
 cat <<- END > $INI
 [databases]
     * = $PGB_DATABASES
 [pgbouncer]
     listen_port = ${PGB_LISTEN_PORT:-5432}
     listen_addr = ${PGB_LISTEN_ADDR:-0.0.0.0}
-    auth_type = md5
-    default_pool_size = 20
-    log_connections = 1
-    log_disconnections = 1
-    log_pooler_errors = 1
-    routing_rules_py_module_file = /home/pgbouncer/routing_rules.py
-    log_stats = 1
+    auth_type = ${AUTH_TYPE:-md5}
+    default_pool_size = ${DEFAULT_POOL_SIZE:-20}
+    log_connections = ${LOG_CONNECTIONS:-1}
+    log_disconnections = ${LOG_DISCONNECTIONS:-1}
+    log_pooler_errors = ${LOG_POOLER_ERRORS:-1}
+    routing_rules_py_module_file = $ROUTING_RULES_FILE
+    rewrite_query_py_module_file = $REWRITE_QUERY_FILE
+    log_stats = ${LOG_STATS:-1}
     auth_file = $USERLIST
-    logfile = $PGB_DIR/pgbouncer.log
+    logfile = $LOG_FILE
     pidfile = $PGB_DIR/pgbouncer.pid
     admin_users = ${PGB_ADMIN_USERS:-admin}
 END
